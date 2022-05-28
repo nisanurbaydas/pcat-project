@@ -1,0 +1,28 @@
+{
+  "name": "pcat",
+  "version": "1.0.0",
+  "description": "Simple post project with crud operation",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nisanurbaydas/pcat-project.git"
+  },
+  "keywords": [
+    "photograph",
+    "post",
+    "crud"
+  ],
+  "author": "Nisa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nisanurbaydas/pcat-project/issues"
+  },
+  "homepage": "https://github.com/nisanurbaydas/pcat-project#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15",
+    "prettier": "2.6.2"
+  }
+}
