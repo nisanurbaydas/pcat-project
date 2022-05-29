@@ -8,6 +8,10 @@ app.set('view engine', 'ejs');
 
 //middleware
 app.use(express.static('public'));
+app.use(express.urlencoded({extended:true}));
+//url'deki datayı okumamızı sağlar
+app.use(express.json());
+//url'deki datayı json fromatına dönüştürmemizi sağlar
 
 //routes
 app.get('/', (req, res) => {
@@ -22,6 +26,11 @@ app.get('/about', (req, res) => {
 app.get('/add', (req, res) => {
   res.render('add');
 });
+
+app.post('/photos', (req,res) => {
+  console.log(req.body);
+  res.redirect('/');
+})
 
 const port = 3000;
 app.listen(port, () => {
