@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const fileUpload = require('express-fileupload');
+const methodOverride = require('method-override');
 
 const ejs = require('ejs');
 const path = require('path');
@@ -29,6 +30,7 @@ app.use(express.json());
 //url'deki datayı json fromatına dönüştürmemizi sağlar
 
 app.use(fileUpload());
+app.use(methodOverride('_method'));
 
 //routes
 app.get('/', async (req, res) => {
@@ -58,11 +60,9 @@ app.get('/add', (req, res) => {
 });
 
 app.post('/photos', async (req, res) => {
-
-  
   const uploadDir = 'public/uploads';
   //if the file (that we want to store our uploaded image) doesn't exist create one
-  if(!fs.existsSync(uploadDir)) {
+  if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir);
   }
 
@@ -83,6 +83,22 @@ app.post('/photos', async (req, res) => {
       res.redirect('/');
     }
   );
+});
+
+app.get('/photos/edit/:id', async (req, res) => {
+  const photo = await Photo.findOne({ _id: req.params.id });
+  res.render('edit', {
+    photo,
+  });
+});
+
+app.put('/photos/:id', async (req, res) => {
+  const photo = await Photo.findOne({ _id: req.params.id });
+  photo.title = req.body.title
+  photo.description = req.body.description
+  photo.save()
+
+  res.redirect(`/photos/${req.params.id}`)
 });
 
 const port = 3000;
