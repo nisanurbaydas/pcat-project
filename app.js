@@ -15,6 +15,7 @@ const app = express();
 mongoose.connect('mongodb://localhost/pcat-db', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  
 });
 
 //template engine
@@ -30,7 +31,9 @@ app.use(express.json());
 //url'deki datayı json fromatına dönüştürmemizi sağlar
 
 app.use(fileUpload());
-app.use(methodOverride('_method'));
+app.use(methodOverride('_method', {
+  methods: ['POST', 'GET']
+}));
 
 //routes
 app.get('/', async (req, res) => {
@@ -100,6 +103,15 @@ app.put('/photos/:id', async (req, res) => {
 
   res.redirect(`/photos/${req.params.id}`)
 });
+
+app.delete('/photos/:id', async(req, res) => {
+  const photo = await Photo.findOne({ _id: req.params.id });
+  let deletedImage = __dirname + '/public' + photo.image;
+  //photo.image = /uploads/photoName.extesion
+  fs.unlinkSync(deletedImage);
+  await Photo.findByIdAndRemove(req.params.id);
+  res.redirect('/');
+})
 
 const port = 3000;
 app.listen(port, () => {
